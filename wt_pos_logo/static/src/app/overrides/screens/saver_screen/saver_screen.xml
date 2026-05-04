@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-inherit="point_of_sale.SaverScreen" t-inherit-mode="extension">
+
+        <xpath expr="//div[hasclass('login-overlay')]" position="attributes">
+            <attribute name="t-attf-style">
+                background-image: url('/web/binary/pos_screen_saver/{{props.config.id}}');
+            </attribute>
+        </xpath>
+
+        <!-- Modify the pos-logo container -->
+        <!-- 1️⃣ Hide original div.pos-logo when saver is ON -->
+        <xpath expr="//div[hasclass('pos-logo')]" position="attributes">
+            <attribute name="t-attf-style">
+                {{ (props.config.enable_saver_background or props.config.enable_pos_logo) ? "display:none!important;" : "display:flex;" }}
+            </attribute>
+        </xpath>
+
+        <!-- 2️⃣ Insert your custom <img> ONLY when saver is OFF -->
+        <xpath expr="//div[hasclass('pos-logo')]" position="after">
+            <img t-if="props.config.enable_pos_logo and props.config.logo_option != 'none'" class="h-50 pos-logo-custom" t-attf-src="/web/binary/pos_logo/{{props.config.id}}"/>
+        </xpath>
+
+
+        <xpath expr="//div[hasclass('timer-hours')]" position="attributes">
+            <attribute name="t-attf-style">{{ props.config.enable_saver_background ? "color:" + props.config.timer_color : ""}}</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('timer-date-container')]" position="attributes">
+            <attribute name="t-attf-style">{{ props.config.enable_saver_background ? "color:" + props.config.timer_color : ""}}</attribute>
+        </xpath>
+    </t>
+</templates>

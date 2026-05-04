@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- Inherit the Navbar template -->
+    <t t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+
+
+        <!-- Changed condition for display -->
+        <xpath expr="//div[hasclass('pos-centerheader')]" position="attributes">
+            <attribute name="t-if">pos.config.enable_pos_logo or !this.pos.getOrder()</attribute>
+        </xpath>
+
+        <!-- Hide default logo DIV only if custom logo is enabled -->
+        <xpath expr="//div[hasclass('pos-logo')]" position="attributes">
+            <attribute name="t-attf-style">
+                {{ pos.config.enable_pos_logo ? "display:none!important;" : "display:block;" }}
+            </attribute>
+        </xpath>
+
+
+        <!-- Insert custom IMG only if enable_pos_logo is True -->
+        <xpath expr="//div[hasclass('pos-logo')]" position="after">
+            <img t-if="pos.config.enable_pos_logo and pos.config.logo_option != 'none'" height="42" class="pos-logo-custom mw-100" t-att-src="
+            pos.config.logo_option == 'custom'
+                ? (pos.config.custom_logo
+                    ? '/web/image/pos.config/' + pos.config.id + '/custom_logo'
+                    : '/web/static/img/placeholder.png')
+                : (
+                    pos.config.logo_option == 'company'
+                        ? '/web/binary/pos_logo/' + pos.config.id
+                        : ''
+                  )
+            " />
+        </xpath>
+
+    </t>
+</templates>
