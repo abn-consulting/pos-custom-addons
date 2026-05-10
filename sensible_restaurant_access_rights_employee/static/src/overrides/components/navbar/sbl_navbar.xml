@@ -10,7 +10,7 @@
 
         <!-- Hide Switch Floor View based on employee setting -->
         <xpath expr="//DropdownItem[contains(text(), 'Switch Floor View')]" position="attributes">
-            <attribute name="t-if">pos.router.state.current == 'FloorScreen' and !sbl_current_employee?.sbl_hide_pos_switch_floor_view</attribute>
+            <attribute name="t-if">pos.router.state.current == 'FloorScreen' and !pos.getCashier()?.sbl_hide_pos_switch_floor_view</attribute>
         </xpath>
 
     </t>

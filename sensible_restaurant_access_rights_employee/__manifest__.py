@@ -3,7 +3,7 @@
 # © 2025 Sensible Consulting Services (<https://sensiblecs.com/>)
 {
     'name': 'Smart POS Restaurant Access Rights | Smart Access Control for Restaurant POS | Restaurant Cashier Permissions | Smart Floor Access Control',
-    'version': '19.0.1.0.1',
+    'version': '19.0.1.0.2',
     'summary': 'Smart Access Control for Restaurant POS - Manage employee permissions and floor access with smart restaurant POS access rights',
     'description': '''
         Smart Access Control for Restaurant POS:
