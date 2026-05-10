@@ -2,5 +2,5 @@ import { SaverScreen } from "@point_of_sale/app/screens/saver_screen/saver_scree
 
 SaverScreen.props = {
   ...SaverScreen.props,
-  config: Object,
+  config: { type: Object, optional: true },
 };

@@ -26,7 +26,7 @@
     'website': "https://www.wisenetic.com",
     "support": "info@wisenetic.com",
     'category': "Sales/Point of Sale",
-    'version': "19.0.0.0.1",
+    'version': "19.0.0.0.2",
     'depends': ['point_of_sale'],
     'data': ["views/res_config_settings_views.xml"],
     'images': ['static/description/banner.gif'],

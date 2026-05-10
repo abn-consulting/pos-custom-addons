@@ -8,7 +8,7 @@
                 t-if="!pos.config.module_pos_restaurant and pos.config.iface_printbill"
                 t-att-class="buttonClass"
                 t-att-disabled="!pos.getOrder()?.getOrderlines()?.length"
-                t-on-click="clickPrintBill">
+                t-on-click="clickEarlyReceiptBill">
                 <i class="fa fa-print me-1"/>
                 Bill
             </button>

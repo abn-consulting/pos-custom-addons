@@ -1,7 +1,7 @@
 {
     "name": "POS Early Receipt Printing",
     "summary": "Print POS bills before payment without enabling restaurant mode",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Point of Sale",
     "website": "https://github.com/OCA/pos",
     "author": "Odoo Community Association (OCA), ABN Consulting Group",
@@ -12,7 +12,9 @@
     ],
     "assets": {
         "point_of_sale._assets_pos": [
+            "pos_early_receipt_printing/static/src/js/early_receipt_button.js",
             "pos_early_receipt_printing/static/src/xml/early_receipt_button.xml",
+            "pos_early_receipt_printing/static/src/xml/order_receipt.xml",
         ],
     },
     "installable": True,
