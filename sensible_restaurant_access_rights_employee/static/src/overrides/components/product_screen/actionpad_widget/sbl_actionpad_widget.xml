@@ -15,7 +15,7 @@
 
         <!-- Hide Order/Submit button based on employee setting -->
         <xpath expr="//button[hasclass('submit-order')]" position="attributes">
-            <attribute name="t-if">!this.currentOrder.isDirectSale and this.displayCategoryCount.length and !sblHideOrderButton</attribute>
+            <attribute name="t-if">!this.currentOrder?.isDirectSale and this.displayCategoryCount.length and !sblHideOrderButton</attribute>
         </xpath>
 
     </t>
