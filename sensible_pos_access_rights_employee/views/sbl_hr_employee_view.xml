@@ -13,6 +13,7 @@
                             <field name="sbl_hide_pos_actions_button" widget="boolean_toggle"/>
                             <field name="sbl_hide_pos_orders_menu" widget="boolean_toggle"/>
                             <field name="sbl_hide_pos_delete_order_button" widget="boolean_toggle" invisible="sbl_hide_pos_orders_menu"/>
+                            <field name="sbl_disable_pos_order_editing" widget="boolean_toggle"/>
                         </group>
                         <group>
                             <field name="sbl_hide_pos_customer_selection_button" widget="boolean_toggle"/>
@@ -77,4 +78,3 @@
         </field>
     </record>
 </odoo>
-
