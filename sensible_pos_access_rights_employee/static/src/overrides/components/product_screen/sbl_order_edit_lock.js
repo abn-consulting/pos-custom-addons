@@ -5,13 +5,13 @@ import { ProductScreen } from "@point_of_sale/app/screens/product_screen/product
 import { OrderSummary } from "@point_of_sale/app/screens/product_screen/order_summary/order_summary";
 
 function isOrderEditingLocked(pos) {
-    return Boolean(pos.cashier?.sbl_disable_pos_order_editing);
+    return Boolean(pos.cashier?.sbl_hide_pos_numpad);
 }
 
 function showLockedDialog(dialog) {
     dialog.add(AlertDialog, {
         title: _t("Order editing disabled"),
-        body: _t("This cashier is not allowed to add, remove, or modify order lines."),
+        body: _t("This cashier is not allowed to edit order lines while the numpad is hidden."),
     });
 }
 

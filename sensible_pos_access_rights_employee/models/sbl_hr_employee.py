@@ -19,12 +19,6 @@ class HrEmployeeBase(models.Model):
         default=False,
         groups="hr.group_hr_user"
     )
-    sbl_disable_pos_order_editing = fields.Boolean(
-        string='Disable POS Order Editing',
-        help='If checked, this employee cannot add, remove, or modify POS order lines.',
-        default=False,
-        groups="hr.group_hr_user"
-    )
     sbl_hide_pos_customer_selection_button = fields.Boolean(
         string='Hide POS Customer Selection Button',
         help='If checked, the Customer Selection button will be hidden for this employee in the POS interface.',
@@ -234,7 +228,6 @@ class HrEmployeeBase(models.Model):
         fields = super()._load_pos_data_fields(config)
         return fields + [
             'sbl_hide_pos_new_order_button', 'sbl_hide_pos_delete_order_button',
-            'sbl_disable_pos_order_editing',
             'sbl_hide_pos_customer_selection_button', 'sbl_hide_pos_actions_button',
             'sbl_hide_pos_numpad', 'sbl_disable_pos_numpad_plus_minus', 'sbl_disable_pos_qty',
             'sbl_disable_pos_discount_button', 'sbl_hide_pos_payment', 'sbl_disable_pos_change_price',
