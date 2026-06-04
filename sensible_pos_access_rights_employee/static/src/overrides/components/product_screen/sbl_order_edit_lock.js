@@ -8,10 +8,21 @@ function isOrderEditingLocked(pos) {
     return Boolean(pos.cashier?.sbl_hide_pos_numpad);
 }
 
+function isOrderlineReductionLocked(pos) {
+    return Boolean(pos.cashier?.sbl_prevent_pos_orderline_reduction);
+}
+
 function showLockedDialog(dialog) {
     dialog.add(AlertDialog, {
         title: _t("Order editing disabled"),
         body: _t("This cashier is not allowed to edit order lines while the numpad is hidden."),
+    });
+}
+
+function showReductionLockedDialog(dialog) {
+    dialog.add(AlertDialog, {
+        title: _t("Orderline removal disabled"),
+        body: _t("This cashier is not allowed to reduce quantities or remove order lines."),
     });
 }
 
@@ -20,6 +31,11 @@ patch(ProductScreen.prototype, {
         if (isOrderEditingLocked(this.pos)) {
             this.numberBuffer.reset();
             showLockedDialog(this.dialog);
+            return;
+        }
+        if (isOrderlineReductionLocked(this.pos) && buttonValue === "Backspace") {
+            this.numberBuffer.reset();
+            showReductionLockedDialog(this.dialog);
             return;
         }
         return super.onNumpadClick(...arguments);
@@ -53,10 +69,27 @@ patch(ProductScreen.prototype, {
 });
 
 patch(OrderSummary.prototype, {
+    async onOrderlineLongPress(ev, orderline) {
+        if (isOrderEditingLocked(this.pos)) {
+            showLockedDialog(this.dialog);
+            return false;
+        }
+        if (isOrderlineReductionLocked(this.pos)) {
+            showReductionLockedDialog(this.dialog);
+            return false;
+        }
+        return super.onOrderlineLongPress(...arguments);
+    },
+
     async updateSelectedOrderline({ buffer, key }) {
         if (isOrderEditingLocked(this.pos)) {
             this.numberBuffer.reset();
             showLockedDialog(this.dialog);
+            return;
+        }
+        if (isOrderlineReductionLocked(this.pos) && this._isReductionOrRemoval(buffer, key)) {
+            this.numberBuffer.reset();
+            showReductionLockedDialog(this.dialog);
             return;
         }
         return super.updateSelectedOrderline(...arguments);
@@ -64,6 +97,10 @@ patch(OrderSummary.prototype, {
 
     _setValue(val) {
         if (isOrderEditingLocked(this.pos)) {
+            this.numberBuffer.reset();
+            return;
+        }
+        if (isOrderlineReductionLocked(this.pos) && this._isReductionOrRemovalValue(val)) {
             this.numberBuffer.reset();
             return;
         }
@@ -82,6 +119,34 @@ patch(OrderSummary.prototype, {
             this.numberBuffer.reset();
             return;
         }
+        if (isOrderlineReductionLocked(this.pos) && this._isReductionOrRemovalValue(newQuantity)) {
+            this.numberBuffer.reset();
+            showReductionLockedDialog(this.dialog);
+            return;
+        }
         return super.updateQuantityNumber(...arguments);
+    },
+
+    _isReductionOrRemoval(buffer, key) {
+        return key === "Backspace" || this._isReductionOrRemovalValue(buffer === null ? "remove" : buffer);
+    },
+
+    _isReductionOrRemovalValue(value) {
+        const order = this.pos.getOrder();
+        let selectedLine = order?.getSelectedOrderline();
+        if (!selectedLine) {
+            return false;
+        }
+        if (selectedLine.combo_parent_id) {
+            selectedLine = selectedLine.combo_parent_id;
+        }
+        if (value === "remove") {
+            return true;
+        }
+        if (this.pos.numpadMode !== "quantity") {
+            return false;
+        }
+        const nextQuantity = Number.parseFloat(value);
+        return Number.isFinite(nextQuantity) && nextQuantity < selectedLine.getQuantity();
     },
 });

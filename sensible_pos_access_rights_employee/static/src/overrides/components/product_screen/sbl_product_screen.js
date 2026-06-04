@@ -19,6 +19,9 @@ patch(ProductScreen.prototype, {
             if (button.value === "-") {
                 button.disabled = button.disabled || employee?.sbl_disable_pos_numpad_plus_minus;
             }
+            if (button.value === "Backspace") {
+                button.disabled = button.disabled || employee?.sbl_prevent_pos_orderline_reduction;
+            }
         }
         const clickButton = buttons.find(button => button.value === this.pos.numpadMode);
         if (clickButton) {

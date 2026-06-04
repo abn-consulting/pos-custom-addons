@@ -56,6 +56,7 @@
                         </group>
                         <group>
                             <field name="sbl_disable_pos_numpad_plus_minus" widget="boolean_toggle" invisible="sbl_hide_pos_numpad"/>
+                            <field name="sbl_prevent_pos_orderline_reduction" widget="boolean_toggle" invisible="sbl_hide_pos_numpad"/>
                             <field name="sbl_disable_pos_discount_button" widget="boolean_toggle" invisible="sbl_hide_pos_numpad"/>
                         </group>
                     </group>

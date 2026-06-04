@@ -43,6 +43,12 @@ class HrEmployeeBase(models.Model):
         default=False,
         groups="hr.group_hr_user"
     )
+    sbl_prevent_pos_orderline_reduction = fields.Boolean(
+        string='Prevent POS Orderline Reduction/Removal',
+        help='If checked, this employee can add items but cannot decrease quantities or remove order lines.',
+        default=False,
+        groups="hr.group_hr_user"
+    )
     sbl_disable_pos_qty = fields.Boolean(
         string='Disable POS Quantity (QTY) Button',
         help='If checked, the Quantity (QTY) button will be disabled for this employee in the POS interface.',
@@ -229,7 +235,8 @@ class HrEmployeeBase(models.Model):
         return fields + [
             'sbl_hide_pos_new_order_button', 'sbl_hide_pos_delete_order_button',
             'sbl_hide_pos_customer_selection_button', 'sbl_hide_pos_actions_button',
-            'sbl_hide_pos_numpad', 'sbl_disable_pos_numpad_plus_minus', 'sbl_disable_pos_qty',
+            'sbl_hide_pos_numpad', 'sbl_disable_pos_numpad_plus_minus',
+            'sbl_prevent_pos_orderline_reduction', 'sbl_disable_pos_qty',
             'sbl_disable_pos_discount_button', 'sbl_hide_pos_payment', 'sbl_disable_pos_change_price',
             'sbl_hide_pos_finance_from_product_info', 'sbl_hide_pos_cash_in_out',
             'sbl_hide_pos_create_customer_button', 'sbl_hide_pos_edit_customer_button',
