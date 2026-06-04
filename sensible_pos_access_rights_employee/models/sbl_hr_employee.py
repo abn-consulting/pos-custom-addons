@@ -46,7 +46,8 @@ class HrEmployeeBase(models.Model):
     sbl_prevent_pos_orderline_reduction = fields.Boolean(
         string='Prevent POS Orderline Reduction/Removal',
         help='If checked, this employee can add items but cannot decrease quantities or remove order lines.',
-        default=False,
+        compute='_compute_sbl_prevent_pos_orderline_reduction',
+        inverse='_inverse_sbl_prevent_pos_orderline_reduction',
         groups="hr.group_hr_user"
     )
     sbl_disable_pos_qty = fields.Boolean(
@@ -228,6 +229,30 @@ class HrEmployeeBase(models.Model):
         default=False,
         groups="hr.group_hr_user",
     )
+
+    def _sbl_prevent_orderline_reduction_param_key(self):
+        self.ensure_one()
+        return f'sensible_pos_access_rights_employee.prevent_orderline_reduction.{self.id}'
+
+    def _compute_sbl_prevent_pos_orderline_reduction(self):
+        params = self.env['ir.config_parameter'].sudo()
+        for employee in self:
+            if not employee.id:
+                employee.sbl_prevent_pos_orderline_reduction = False
+                continue
+            employee.sbl_prevent_pos_orderline_reduction = params.get_param(
+                employee._sbl_prevent_orderline_reduction_param_key(), '0'
+            ) == '1'
+
+    def _inverse_sbl_prevent_pos_orderline_reduction(self):
+        params = self.env['ir.config_parameter'].sudo()
+        for employee in self:
+            if not employee.id:
+                continue
+            params.set_param(
+                employee._sbl_prevent_orderline_reduction_param_key(),
+                '1' if employee.sbl_prevent_pos_orderline_reduction else '0',
+            )
 
     @api.model
     def _load_pos_data_fields(self, config):
