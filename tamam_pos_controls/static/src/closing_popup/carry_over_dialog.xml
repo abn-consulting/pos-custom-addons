@@ -3,9 +3,9 @@
     <t t-name="tamam_pos_controls.CarryOverDialog">
         <Dialog title="props.title" size="'md'">
             <p class="text-prewrap" t-esc="props.body"/>
-            <p>Unpaid orders can be carried over to the next shift instead of being cancelled.</p>
+            <p>Carry Over to Next Shift is recommended: the unpaid orders stay open and the next shift can settle them.</p>
             <t t-set-slot="footer">
-                <button class="btn btn-primary o_carry_over_orders" t-on-click="() => this.run(props.onCarryOver)">Carry Over to Next Shift</button>
+                <button t-ref="carryButton" class="btn btn-primary o_carry_over_orders" t-on-click="() => this.run(props.onCarryOver)">Carry Over to Next Shift</button>
                 <button class="btn btn-secondary" t-on-click="() => this.run(props.onReview)">Review Orders</button>
                 <button class="btn btn-danger" t-on-click="() => this.run(props.onCancelOrders)">Cancel Orders</button>
             </t>

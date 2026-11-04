@@ -1,4 +1,4 @@
-import { Component } from "@odoo/owl";
+import { Component, onMounted, useRef } from "@odoo/owl";
 import { Dialog } from "@web/core/dialog/dialog";
 
 export class CarryOverDialog extends Component {
@@ -12,6 +12,12 @@ export class CarryOverDialog extends Component {
         onCancelOrders: Function,
         close: Function,
     };
+
+    setup() {
+        // Carry over is the default choice: it has focus, so Enter picks it.
+        this.carryButton = useRef("carryButton");
+        onMounted(() => this.carryButton.el?.focus());
+    }
 
     async run(callback) {
         this.props.close();
