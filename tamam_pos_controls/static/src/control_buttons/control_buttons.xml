@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Sensible's template replaces Odoo's own conditions on these buttons and drops the
+         "minimal" role check, so a waiter without the tick box could cancel or refund.
+         Put Odoo's check back on top of the per-employee setting. -->
+    <t t-name="tamam_pos_controls.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
+        <xpath expr="//t[@t-if='props.showRemainingButtons']/div/button[@t-on-click='this.onCancelOrder']" position="attributes">
+            <attribute name="t-if">!pos.cashier?.sbl_hide_pos_action_cancel_order and pos.cashier?._role !== 'minimal'</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if='props.showRemainingButtons']/div/button[@t-on-click='() =&gt; this.clickRefund()']" position="attributes">
+            <attribute name="t-if">!pos.cashier?.sbl_hide_pos_action_refund and pos.cashier?._role !== 'minimal'</attribute>
+        </xpath>
+        <xpath expr="//t[@t-if='props.showRemainingButtons']/div/button[hasclass('o_pricelist_button')]" position="attributes">
+            <attribute name="t-if">!pos.cashier?.sbl_hide_pos_action_pricelist and pos.cashier?._role !== 'minimal'</attribute>
+        </xpath>
+    </t>
+</templates>
