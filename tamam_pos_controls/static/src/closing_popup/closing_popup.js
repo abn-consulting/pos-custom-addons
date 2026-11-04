@@ -26,10 +26,11 @@ patch(ClosePosPopup.prototype, {
                 const ordersDraft = this.pos.models["pos.order"].filter(
                     (o) => !o.finalized && !(o.preset_time && o.preset_time > now)
                 );
+                // Server orders plus orders still only on this device (text ids).
                 const count = new Set([
                     ...response.open_order_ids,
-                    ...ordersDraft.filter((o) => typeof o.id === "number").map((o) => o.id),
-                ]).size || ordersDraft.length;
+                    ...ordersDraft.map((o) => o.id),
+                ]).size;
                 const confirmed = await ask(this.dialog, {
                     title: _t("Cancel %s open order(s)?", count),
                     body: _t(

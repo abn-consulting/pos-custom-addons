@@ -22,9 +22,11 @@ class PosSession(models.Model):
         self.ensure_one()
         if self.state == "closed":
             raise UserError(_("This session is already closed."))
-        orders = self.get_session_orders().filtered(lambda o: o.state == "draft")
+        domain = [("session_id", "=", self.id), ("state", "=", "draft")]
         if order_ids:
-            orders = orders.filtered(lambda o: o.id in order_ids)
+            # Only whole-number ids sent by the till; anything else is ignored.
+            domain.append(("id", "in", [i for i in order_ids if isinstance(i, int)]))
+        orders = self.env["pos.order"].search(domain)
         empty = orders.filtered(lambda o: not o.lines)
         to_carry = orders - empty
         if empty:
