@@ -1,7 +1,7 @@
 {
     "name": "Tamam POS Controls",
-    "summary": "Carry open orders to the next shift, block M-Pesa overpayments, keep waiter limits on Cancel and Refund",
-    "version": "19.0.1.0.0",
+    "summary": "Carry open orders to the next shift, keep waiter limits on Cancel and Refund",
+    "version": "19.0.1.1.0",
     "category": "Point of Sale",
     "author": "ABN Consulting Group",
     "website": "https://www.abn.consulting",
